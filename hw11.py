@@ -1,6 +1,7 @@
 from random import randint as rint
 import math
 # RSA key fun stuff
+# Reference: https://www.di-mgt.com.au/rsa_factorize_n.html
 
 
 # Try to find factor of n given a random g
