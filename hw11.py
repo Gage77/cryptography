@@ -1,4 +1,5 @@
 from random import randint as rint
+import sys
 import math
 # RSA key fun stuff
 # Reference: https://www.di-mgt.com.au/rsa_factorize_n.html
@@ -27,20 +28,26 @@ def main():
     n = 1259531756783983515701499777642110356794201569384295868500005799617750548880147110509521944049285041602433244172023804646590835427723055191592144638318476432867385429617360121
     e = 65537
     d = 879829162542850074748838973716462641470292321076843078870413133138541894315167534655428516005898396122103324293925057981802023330186106794090644952807381680714475934931163153
-
     k = (d * e) - 1
-    g = rint(1, n)
-    rounds = 0
-    print("Attempting using g = {}".format(g))
-    solution = factor_n(k, g, n)
-    rounds += 1
-    while solution == -1:
+
+    # Run until you find solution
+    if len(sys.argv) == 1:
+        print('Running until solution is found...')
         g = rint(1, n)
+        rounds = 0
         print("Attempting using g = {}".format(g))
         solution = factor_n(k, g, n)
         rounds += 1
-    print("P = {}, Q = {}".format(solution[0], solution[1]))
-    print("Solution took {} random samplings of 'g' to terminate".format(rounds))
+        while solution == -1:
+            g = rint(1, n)
+            print("Attempting using g = {}".format(g))
+            solution = factor_n(k, g, n)
+            rounds += 1
+        print("P = {}, Q = {}".format(solution[0], solution[1]))
+        print("Solution took {} random samplings of 'g' to terminate".format(rounds))
+    # Run 100 random samples of g, and count how many of them found a solution
+    else:
+        print('Running 100 samples of g...')
 
 
 if __name__ == '__main__':
